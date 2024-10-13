@@ -5,8 +5,25 @@ import requests
 app = Flask(__name__)
 
 # Load the movie data and similarity matrix
+def download_pkl(url, save_path):
+    response = requests.get(url)
+    with open(save_path, 'wb') as f:
+        f.write(response.content)
+
+# Dropbox URLs for direct download
+movies_pkl_url = 'https://www.dropbox.com/scl/fi/dm5ade8da4urx3g0i7dzy/movies.pkl?rlkey=vzb5f2rqa29lj6tu0k9kzwhce&st=rqapoi8f&dl=1'
+similarity_pkl_url = 'https://www.dropbox.com/scl/fi/l17gtqx2h5ljecorlav43/similarity.pkl?rlkey=4mdxvna4l667bdbgqets5gv6p&st=os7fdc21&dl=1'
+
+# Download the files to the current directory
+download_pkl(movies_pkl_url, 'movies.pkl')
+download_pkl(similarity_pkl_url, 'similarity.pkl')
+
+# Load the pickle files
 movies = pickle.load(open('movies.pkl', 'rb'))
 similarity = pickle.load(open('similarity.pkl', 'rb'))
+
+# movies = pickle.load(open('movies.pkl', 'rb'))
+# similarity = pickle.load(open('similarity.pkl', 'rb'))
 
 # Function to fetch movie posters
 def fetch_poster(movie_id):
